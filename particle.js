@@ -1,4 +1,4 @@
-let MAXHIST = 50;
+let MAXHIST = 100;
 
 function Particle(x, y) {
 
@@ -8,10 +8,16 @@ function Particle(x, y) {
 
     this.update = function () {
 
-        this.coor.x += random(-10, 10);
+        this.coor.x += random(-5, 10);
         this.coor.y += random(-10, 10);
         this.history.push(createVector(this.coor.x, this.coor.y));
 
+        for (var i = 0; i < this.history.length; i++) {
+            var pos = this.history[i];
+            pos.x += random(-2,2);
+            pos.y += random(-2,2);
+        }
+        
         if(this.history.length > MAXHIST){
             this.history.splice(0, 1);
         }
@@ -19,9 +25,13 @@ function Particle(x, y) {
 
     this.show = function () {
         noStroke();
+        // strokeWeight(2);
+        // stroke(255);
+        // noFill();
         fill(255);
         ellipse(this.coor.x, this.coor.y, 20);
 
+        // beginShape();
         for (var i = 0; i < this.history.length; i++) {
             var pos = this.history[i];
             var hist_len = this.history.length;
@@ -30,7 +40,9 @@ function Particle(x, y) {
             }else{
                 fill(map(i, 0, hist_len-1, 1, 255));
             }
-            ellipse(pos.x, pos.y, i);
+            ellipse(pos.x, pos.y, i/10);
+        //     vertex(pos.x, pos.y);
+        // endShape();
         }
     }
 

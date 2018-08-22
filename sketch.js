@@ -6,10 +6,10 @@ function setup() {
 	canvas = createCanvas(windowWidth, windowHeight);
 	canvas.mouseClicked(addMore);
 	button1 = createButton('rainbow');
-	button1.position(windowWidth/2+20, 20);
+	button1.position(windowWidth / 2 + 20, 20);
 	button1.mouseClicked(rainbow);
 	button2 = createButton('reset');
-	button2.position(windowWidth/2-60, 20);
+	button2.position(windowWidth / 2 - 60, 20);
 	button2.mouseClicked(reset);
 
 	//style buttons
@@ -22,30 +22,35 @@ function setup() {
 function draw() {
 	background(0);
 
-	for(var par of particles){
+	for (var i = 0; i < particles.length; i++) {
+		var par = particles[i];
 		par.update();
 		par.show();
+		var pos = par.history[0];
+		if (abs(pos.x - windowWidth) > windowWidth || abs(pos.y - windowHeight) > windowHeight) {
+			particles.splice(i,1);
+		}
 	}
+	// print(particles.length);
 
 }
 
-function addMore(){
-	particles.push(new Particle(mouseX,mouseY));
+function addMore() {
+	particles.push(new Particle(mouseX, mouseY));
 }
 
 function windowResized() {
 	// print('resized!');
 	resizeCanvas(windowWidth, windowHeight);
 	background(0);
-	button1.position(windowWidth/2+20, 20);
-	button2.position(windowWidth/2-60, 20);
+	button1.position(windowWidth / 2 + 20, 20);
+	button2.position(windowWidth / 2 - 60, 20);
 }
 
-function reset(){
+function reset() {
 	particles = [];
 }
 
-function rainbow(){
+function rainbow() {
 	israinbow = !israinbow;
 }
-
